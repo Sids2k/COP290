@@ -9,9 +9,22 @@
 
 static ucontext_t ctx;
 
-static void conjecture(int len, void* options, int sz, void fn(void*)); // Create context and start traversal
+static void conjecture(int len, void* options, int sz, void fn(void*)){
+	int i = -1;
+	getcontext(&ctx); // Save context
+	i++;
+	if (i == len) {
+		return;
+	}
+	fn(options + i * sz);
+} // Create context and start traversal
 
-void assert(bool b); // Restore context if condition fails
+void assert(bool b){
+	if(!b) {
+		// printf("Assertion failed\n");
+		setcontext(&ctx);
+	}
+} // Restore context if condition fails
 
 bool is_prime(int x) {
 	for(int i = 2; i <= x/2; i ++) {
