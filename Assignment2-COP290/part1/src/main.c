@@ -63,3 +63,6 @@ int main(void) {
 	// If the conjecture frame is popped, we will never be able to rollback to it.
 	conjecture(7, (void*) mynums, sizeof(int), &app);
 }
+
+
+// main references: https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-makecontext-modify-user-context#rmctxt and https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-getcontext-get-user-context#rgcntx
