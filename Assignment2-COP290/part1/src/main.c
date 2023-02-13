@@ -11,18 +11,24 @@ static ucontext_t ctx;
 
 static void conjecture(int len, void* options, int sz, void fn(void*)){
 	int i = -1;
-	getcontext(&ctx); // Save context
+	getcontext(&ctx); // Save main context
 	i++;
 	if (i == len) {
 		return;
 	}
-	fn(options + i * sz);
+	static ucontext_t ctx1;
+	getcontext(&ctx1); // Save temp context
+	ctx1.uc_stack.ss_sp = malloc(MEM); 
+	ctx1.uc_stack.ss_size = sz;
+	ctx1.uc_link = 0; 
+	makecontext(&ctx1, fn, 1, options + i * sz); // temp context calls fn
+	setcontext(&ctx1); // start the temp context
 } // Create context and start traversal
 
 void assert(bool b){
 	if(!b) {
 		// printf("Assertion failed\n");
-		setcontext(&ctx);
+		setcontext(&ctx); // Restore context if condition fails
 	}
 } // Restore context if condition fails
 
@@ -52,8 +58,8 @@ void app(void* c) {
 }
 
 int main(void) {
-	int mynums[] = {11, 23, 42, 39, 55};
+	int mynums[] = {39, 11, 23, 42, 41, 52, 22};
 	// We have to ensure that conjecture lives in the bottom of the call stack. 
 	// If the conjecture frame is popped, we will never be able to rollback to it.
-	conjecture(5, (void*) mynums, sizeof(int), &app);
+	conjecture(7, (void*) mynums, sizeof(int), &app);
 }
