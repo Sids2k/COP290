@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Assignment2-COP290/part1/src/.DS_Store
+Assignment2-COP290/part1/src/temp
+.DS_Store
+.vscode/tasks.json
+Assignment2-COP290/.DS_Store
+.gitignore
+*.DS_Store
