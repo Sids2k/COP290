@@ -1,10 +1,13 @@
 // Make custom thread library
+#define _XOPEN_SOURCE
 #include <stdio.h>
-#include "mythread.h"
-#include "list.h"
+#include "../include/hm.h"
+#include "../include/list.h"
+#include "../include/mythread.h"
+#include <ucontext.h>
 #define MEM 64000
 
-struct ucontext_t main_ctx;
+static ucontext_t main_ctx;
 struct list *l;
 
 void mythread_init() {
@@ -12,9 +15,9 @@ void mythread_init() {
 }
 
 // mythread_create function
-void* mythread_create(void func(void*), void* arg){
+ucontext_t* mythread_create(void func(void*), void* arg){
     // set up context
-    ucontext_t ctx;
+    static ucontext_t ctx;
     getcontext(&ctx);
     ctx.uc_stack.ss_sp = malloc(MEM);
     ctx.uc_stack.ss_size = MEM;
@@ -24,6 +27,8 @@ void* mythread_create(void func(void*), void* arg){
     makecontext(&ctx, func, 1, arg);
     // add to list
     list_add(l, &ctx);
+
+    return &ctx;
 }
 
 // mythread_join function
@@ -50,7 +55,3 @@ void mythread_yield(){
     // swap context
     swapcontext(&temp, &temp1);
 }
-
-
-
-
