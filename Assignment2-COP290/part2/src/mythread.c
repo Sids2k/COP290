@@ -1,9 +1,8 @@
 // Make custom thread library
+#include <stdio.h>
 #include "mythread.h"
 #include "list.h"
 #define MEM 64000
-#include <hm.h>
-#include <list.h>
 
 struct ucontext_t main_ctx;
 struct list *l;
@@ -23,7 +22,6 @@ void* mythread_create(void func(void*), void* arg){
     ctx.uc_link = &main_ctx;
     // make context
     makecontext(&ctx, func, 1, arg);
-
     // add to list
     list_add(l, &ctx);
 }
@@ -39,6 +37,18 @@ void mythread_join(){
         list_rm(l, &temp);
         swapcontext(&main_ctx, &temp);
     }
+}
+
+// mythread_yield function
+void mythread_yield(){
+    // get element from list
+    struct listentry* le = l->head;
+    ucontext_t temp = *(ucontext_t*) le->data;
+    // get next element
+    struct listentry* le1 = le->next;
+    ucontext_t temp1 = *(ucontext_t*) le1->data;
+    // swap context
+    swapcontext(&temp, &temp1);
 }
 
 
