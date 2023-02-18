@@ -18,6 +18,8 @@ void mythread_init() {
 ucontext_t* mythread_create(void func(void*), void* arg){
     // set up context
     static ucontext_t ctx;
+    // add to list
+    list_add(l, &ctx);
     getcontext(&ctx);
     ctx.uc_stack.ss_sp = malloc(MEM);
     ctx.uc_stack.ss_size = MEM;
@@ -25,22 +27,22 @@ ucontext_t* mythread_create(void func(void*), void* arg){
     ctx.uc_link = &main_ctx;
     // make context
     makecontext(&ctx, func, 1, arg);
-    // add to list
-    list_add(l, &ctx);
 
     return &ctx;
 }
 
 // mythread_join function
 void mythread_join(){
-    // add a loop
-    while(!is_empty(l)){
-        // get element from list
-        struct listentry* le = l->head;
-        ucontext_t temp = *(ucontext_t*) le->data;
-        // remove from list
-        list_rm(l, &temp);
-        swapcontext(&main_ctx, &temp);
+    // get the head
+    struct listentry* le = l->head;
+    // loop through the list
+    while(le != NULL){
+        // get the context
+        ucontext_t* temp = (ucontext_t*) le->data;
+        // swap context to 
+        swapcontext(&main_ctx, temp);
+        // get next element
+        le = le->next;
     }
 }
 
