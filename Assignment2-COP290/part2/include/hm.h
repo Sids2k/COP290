@@ -1,5 +1,6 @@
 #include "mythread.h"
 #include "list.h"
+#include <string.h>
 #define SZ 4096
 
 struct hashmap_element_s {
@@ -9,7 +10,7 @@ struct hashmap_element_s {
 
 struct hashmap_s {
   struct list* table[SZ];
-  struct lock* lk[SZ];
+  // struct lock* lk[SZ];
 };
 
 
