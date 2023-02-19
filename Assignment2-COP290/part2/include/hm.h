@@ -20,5 +20,5 @@ void* hashmap_get(struct hashmap_s *const hashmap, const char* key);    // Fetch
 void hashmap_iterator(struct hashmap_s* const hashmap, 
                         int (*f)(struct hashmap_element_s *const));  // Execute argument function on each key-value pair in hashmap
 
-int acquire_bucket(struct hashmap_s *const hashmap, const char* key);   // Acquire lock on a hashmap slot
-int release_bucket(struct hashmap_s *const hashmap, const char* key);   // Release acquired lock
+// int acquire_bucket(struct hashmap_s *const hashmap, const char* key);   // Acquire lock on a hashmap slot
+// int release_bucket(struct hashmap_s *const hashmap, const char* key);   // Release acquired lock

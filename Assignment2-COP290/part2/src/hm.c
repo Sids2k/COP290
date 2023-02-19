@@ -1,3 +1,5 @@
+#define _XOPEN_SOURCE 
+
 #include "../include/mythread.h"
 #include "../include/list.h"
 #include "../include/hm.h"
@@ -37,6 +39,18 @@ void* hashmap_get(struct hashmap_s *const hashmap, const char* key)
 int hashmap_put(struct hashmap_s *const hashmap, const char* key, void* data)
 {
     int h = hash(key);
+
+    struct listentry* entry = hashmap->table[h]->head;
+    while(entry != NULL)
+    {
+        struct hashmap_element_s* element = entry->data;
+        if(strcmp(element->key, key) == 0)
+        {
+            element->data = data;
+            return 0;
+        }
+        entry = entry->next;
+    }
     struct hashmap_element_s* element = malloc(sizeof(struct hashmap_element_s));
     element->key = malloc(sizeof(char) * 100);
     strcpy(element->key, key);
