@@ -1,5 +1,5 @@
-#include "mythread.h"
-#include "list.h"
+#include "../include/mythread.h"
+#include "../include/list.h"
 #include <pthread.h>
 #include <sched.h>
 
