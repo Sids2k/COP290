@@ -80,3 +80,29 @@ void mythread_yield(){
     // swap context
     swapcontext(curr_ctx, next_ctx);
 }
+
+
+struct lock* lock_new()   // return an initialized lock object
+{
+    struct lock* lk = (struct lock*) malloc(sizeof(struct lock));
+    lk->ctx = NULL;
+    return lk;
+}
+
+void lock_acquire(struct lock* lk)   // Set lock. Yield if lock is acquired by some other thread.
+{
+    while (lk->ctx != NULL)
+        mythread_yield();
+    lk->ctx = (ucontext_t*) curr_le->data;
+}
+
+int lock_release(struct lock* lk)   // Release lock
+{
+    if (lk->ctx == (ucontext_t*) curr_le->data)
+    {
+        lk->ctx = NULL;
+        return 1;
+    }
+    else
+        return 0;
+}
