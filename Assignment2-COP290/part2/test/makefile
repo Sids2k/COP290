@@ -4,4 +4,4 @@ default:
 	gcc -Wall -c ../src/mythread.c
 	gcc -Wall -c ./main.c
 	gcc -o prog hm.o list.o mythread.o main.o
-	./prog in1.txt in2.txt
+	./prog ../data/in1.txt ../data/in2.txt ../data/in3.txt ../data/in4.txt
