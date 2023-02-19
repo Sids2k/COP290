@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 }
 
 static void f2 (char* word) {
-    printf("Inside f2 %s\n", word);
+    // printf("Inside f2 %s\n", word);
     acquire_bucket(&hashmap, word);
     int* c = (int*) hashmap_get(&hashmap, word);
     int* c1 = (int*) malloc(sizeof(int));
@@ -39,10 +39,10 @@ static void f2 (char* word) {
         }
         *c1 = *c + 1;
     }
-    printf("Inside f2: c1 %d\n", *c1);
+    // printf("Inside f2: c1 %d\n", *c1);
     hashmap_put(&hashmap, word, c1);
     release_bucket(&hashmap, word);
-    puts("finish f2");
+    // puts("finish f2");
 }
 
 void readFile(void *args) {
