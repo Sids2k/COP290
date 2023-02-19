@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <sched.h>
 
-struct ucontext_t main_ctx;
+// struct ucontext_t main_ctx;
 struct list *l;
 void mythread_init() {
 	l = list_new();

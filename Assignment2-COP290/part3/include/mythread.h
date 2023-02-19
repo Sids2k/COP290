@@ -1,5 +1,6 @@
 #ifndef THREAD_H
 #define THREAD_H
+#define _XOPEN_SOURCE
 
 #include<stdio.h>
 #include<stdlib.h>

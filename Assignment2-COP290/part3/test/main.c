@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 }
 
 static void inc_word_count (char* word) {
-	printf("Inside inc_word_count %s\n", word);
+	// printf("Inside inc_word_count %s\n", word);
 	acquire_bucket(&hashmap, word);
 	int* c = (int*) hashmap_get(&hashmap, word);
 	int* c1 = (int*) malloc(sizeof(int));
@@ -39,10 +39,10 @@ static void inc_word_count (char* word) {
 		}
 		*c1 = *c + 1;
 	}
-	printf("Inside inc_word_count: c1 %d\n", *c1);
+	// printf("Inside inc_word_count: c1 %d\n", *c1);
 	hashmap_put(&hashmap, word, c1);
 	release_bucket(&hashmap, word);
-	puts("finish inc_word_count");
+	// puts("finish inc_word_count");
 }
 
 void readFile(void *args) {
